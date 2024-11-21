@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Configuration;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        
+
     	// REQUIRED:
 		// need to explicitly tell Jersey where the REST classes are found
-		packages("app.rest");  
-				    
+		packages("app.rest");
+
 
 
     }

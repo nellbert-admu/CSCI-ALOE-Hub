@@ -19,7 +19,8 @@ import org.springframework.stereotype.Component;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RequestFilter implements Filter {
 
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
+    @Override
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
@@ -29,7 +30,7 @@ public class RequestFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, x-auth-token");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        
+
         if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
             try {
                 chain.doFilter(req, res);
@@ -48,10 +49,12 @@ public class RequestFilter implements Filter {
 
     }
 
-    public void init(FilterConfig filterConfig) {
+    @Override
+	public void init(FilterConfig filterConfig) {
     }
 
-    public void destroy() {
+    @Override
+	public void destroy() {
     }
 
 }
