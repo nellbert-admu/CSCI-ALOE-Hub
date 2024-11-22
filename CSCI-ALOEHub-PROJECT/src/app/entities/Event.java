@@ -1,6 +1,7 @@
 package app.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Event {
@@ -12,11 +13,11 @@ public class Event {
     @Column(nullable = false)
     private String title;
 
-    @Column(length = 1000) // Optional: Adjust length based on expected size of description
+    @Column(length = 1000)
     private String description;
 
     @Column(nullable = false)
-    private String date;  // Using String instead of Date
+    private String date;  
 
     @Column(nullable = false)
     private String time;
@@ -24,19 +25,27 @@ public class Event {
     @Column(nullable = false)
     private String location;
 
-    // Many-to-One relationship with Organization (one organization can have many events)
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
+    // Many-to-Many relationship with Tag
+    @ManyToMany
+    @JoinTable(
+        name = "event_tag", 
+        joinColumns = @JoinColumn(name = "event_id"), 
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
+
     // Default constructor
     public Event() {}
 
-    // Constructor with parameters for easier creation
+    // Constructor with parameters
     public Event(String title, String description, String date, String time, String location, Organization organization) {
         this.title = title;
         this.description = description;
-        this.date = date;  // Using String for date
+        this.date = date;  
         this.time = time;
         this.location = location;
         this.organization = organization;
@@ -97,5 +106,13 @@ public class Event {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }
