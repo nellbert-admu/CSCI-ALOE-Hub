@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import org.slf4j.Logger;
@@ -30,7 +32,9 @@ public class DatabaseInitializer {
     private OrganizationRepository organizationRepository;
 
     @PostConstruct
+    @Transactional
     public void init() {
+        // Initialize organizations if not already present
         if (organizationRepository.count() == 0) {
             Organization org1 = new Organization(
                 "Ateneo Gabay",
@@ -51,6 +55,7 @@ public class DatabaseInitializer {
             logger.info("Sample organizations initialized.");
         }
 
+        // Initialize users if not already present
         if (userRepository.count() == 0) {
             User user1 = new User(
                 "nellbert.pineda@student.ateneo.edu",
@@ -72,6 +77,7 @@ public class DatabaseInitializer {
             logger.info("Sample users initialized.");
         }
 
+     // Initialize events if not already present
         if (eventRepository.count() == 0) {
             Organization org1 = organizationRepository.findById(1L).orElse(null);
             Organization org2 = organizationRepository.findById(2L).orElse(null);
