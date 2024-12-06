@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +26,7 @@ public class OrganizationController {
     @POST
     @Path("/add")
     @Consumes(javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED)
-    public String addOrganization(
+    public Response addOrganization(
         @FormParam("name") String name,
         @FormParam("contactNumber") String contactNumber,
         @FormParam("email") String email,
@@ -32,7 +34,7 @@ public class OrganizationController {
         
         Organization org = new Organization(name, contactNumber, email, description);
         organizationRepository.save(org);
-        return "Organization saved with ID: " + org.getId();
+        return Response.status(Response.Status.CREATED).entity("Organization saved with ID: " + org.getId()).build();
     }
 
     @GET

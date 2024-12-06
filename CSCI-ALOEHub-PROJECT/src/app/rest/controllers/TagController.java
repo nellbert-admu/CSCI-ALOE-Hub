@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +26,10 @@ public class TagController {
     @POST
     @Path("/add")
     @Consumes(javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED)
-    public String addTag(@FormParam("name") String name) {
+    public Response addTag(@FormParam("name") String name) {
         Tag tag = new Tag(name);
         tagRepository.save(tag);
-        return "Tag saved with ID: " + tag.getId();
+        return Response.status(Response.Status.CREATED).entity("Tag saved with ID: " + tag.getId()).build();
     }
 
     @GET

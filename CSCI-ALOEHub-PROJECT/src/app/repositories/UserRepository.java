@@ -1,11 +1,11 @@
 package app.repositories;
+
+import app.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import app.entities.User;
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Custom query methods (for example, find by email)
-    User findByEmail(String email);
+    // You can add custom query methods if needed
+    User findByEmail(String email);  // Example: Find User by email
 }

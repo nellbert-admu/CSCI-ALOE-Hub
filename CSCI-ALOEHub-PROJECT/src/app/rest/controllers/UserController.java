@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class UserController {
     @POST
     @Path("/add")
     @Consumes(javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED)
-    public String addUser(
+    public Response addUser(
         @FormParam("email") String email,
         @FormParam("firstName") String firstName,
         @FormParam("lastName") String lastName,
@@ -34,7 +35,7 @@ public class UserController {
         
         User user = new User(email, firstName, lastName, contactNumber, password);
         userRepository.save(user);
-        return "User saved with ID: " + user.getId();
+        return Response.status(Response.Status.CREATED).entity("User saved with ID: " + user.getId()).build();
     }
 
     @GET

@@ -18,7 +18,7 @@ public class Organization {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 500)
     private String description;
 
     // Default constructor

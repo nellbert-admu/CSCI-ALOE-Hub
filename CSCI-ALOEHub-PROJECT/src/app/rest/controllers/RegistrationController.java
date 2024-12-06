@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,18 +36,18 @@ public class RegistrationController {
     @POST
     @Path("/add")
     @Consumes(javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED)
-    public String addRegistration(
+    public Response addRegistration(
         @FormParam("userId") Long userId,
         @FormParam("eventId") Long eventId) {
         
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         if (user == null || event == null) {
-            return "Invalid User or Event ID!";
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid User or Event ID!").build();
         }
         Registration registration = new Registration(user, event);
         registrationRepository.save(registration);
-        return "Registration saved with ID: " + registration.getId();
+        return Response.status(Response.Status.CREATED).entity("Registration saved with ID: " + registration.getId()).build();
     }
 
     @GET

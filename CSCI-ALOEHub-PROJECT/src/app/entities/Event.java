@@ -1,6 +1,10 @@
 package app.entities;
 
 import javax.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,10 +21,10 @@ public class Event {
     private String description;
 
     @Column(nullable = false)
-    private String date;  
+    private LocalDate date;
 
     @Column(nullable = false)
-    private String time;
+    private LocalTime time;
 
     @Column(nullable = false)
     private String location;
@@ -29,23 +33,22 @@ public class Event {
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
 
-    // Many-to-Many relationship with Tag
     @ManyToMany
     @JoinTable(
-        name = "event_tag", 
-        joinColumns = @JoinColumn(name = "event_id"), 
+        name = "event_tag",
+        joinColumns = @JoinColumn(name = "event_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>(); // Initialize to avoid null pointer exceptions
 
     // Default constructor
     public Event() {}
 
     // Constructor with parameters
-    public Event(String title, String description, String date, String time, String location, Organization organization) {
+    public Event(String title, String description, LocalDate date, LocalTime time, String location, Organization organization) {
         this.title = title;
         this.description = description;
-        this.date = date;  
+        this.date = date;
         this.time = time;
         this.location = location;
         this.organization = organization;
@@ -76,19 +79,19 @@ public class Event {
         this.description = description;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
